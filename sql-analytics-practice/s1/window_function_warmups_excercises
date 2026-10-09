@@ -17,7 +17,7 @@ ORDER BY film_count DESC;
 
 -- 3. (Debugging) This query fails. Explain why in one sentence, then fix it two ways: once with GROUP BY and once with a window.
 
-   SELECT customer_id, payment_id, SUM(amount)
+   SELECT customer_id, SUM(amount)
    FROM payment
    GROUP BY customer_id;
 
@@ -65,3 +65,12 @@ FROM ranked_payments
 WHERE row_num = 1
 ORDER BY customer_id;
 
+-- Ex 3: top 3 longest films per category, ties included (film → film_category → category).
+SELECT category.name AS category_name,
+       film.title,
+       film.length,
+       RANK() OVER (PARTITION BY category.category_id ORDER BY film.length DESC) AS length_rank
+FROM category
+JOIN film_category ON category.category_id = film_category.category_id
+JOIN film ON film_category.film_id = film.film_id
+ORDER BY category_name, length_rank;
