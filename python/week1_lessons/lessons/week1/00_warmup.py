@@ -39,10 +39,8 @@ def payments_per_customer(rows):
     """W3: a DICT {customer_id: number_of_payments}. Use a loop and dict.get()."""
     payments_per_customer= {}
     for row in rows:
-        customer_id = row["customer_id"]
-        payments_per_customer.get("customer_id", customer_id)
+        payments_per_customer[row["customer_id"]] = payments_per_customer.get(row["customer_id"], 0) + 1
 
-    print(payments_per_customer)
     return payments_per_customer
 
 
