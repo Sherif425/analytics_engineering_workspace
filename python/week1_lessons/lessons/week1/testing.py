@@ -1,5 +1,8 @@
 from pathlib import Path
 import csv
+from collections import Counter
+
+
 
 # current_dir = Path(__file__).resolve()
 # current_working_dir = Path(__file__).cwd()
@@ -41,29 +44,83 @@ import csv
 
 # dictRead
 DATA_DIR = Path(__file__).resolve().parent / "data" 
-payments_path = DATA_DIR / "payments.csv"
+# payments_path = DATA_DIR / "payments.csv"
 
-print("1) Header and first row")
-with open(payments_path, newline="", encoding="utf-8") as f:
-    reader =csv.DictReader(f)
-    print("    columns:", reader.fieldnames)
-    first_row = next(reader)
-    print("    first row:", first_row)
-
-
-print("4) Looping twice over the same reader")
-with open(payments_path, newline="", encoding="utf-8") as f:
-          reader = csv.DictReader(f)
-          first_pass = sum(1 for _ in reader)
-          second_pass = sum(1 for _ in reader)
-          print("    first pass:", first_pass)
-          print("    second pass:", second_pass)
+# print("1) Header and first row")
+# with open(payments_path, newline="", encoding="utf-8") as f:
+#     reader =csv.DictReader(f)
+#     print("    columns:", reader.fieldnames)
+#     first_row = next(reader)
+#     print("    first row:", first_row)
 
 
-def read_csv(path: Path) -> list[dict[str, str]]:
-       with open(path, newline="", encoding="utf-8") as f:
-              return list(csv.DictReader(f))
+# print("4) Looping twice over the same reader")
+# with open(payments_path, newline="", encoding="utf-8") as f:
+#           reader = csv.DictReader(f)
+#           first_pass = sum(1 for _ in reader)
+#           second_pass = sum(1 for _ in reader)
+#           print("    first pass:", first_pass)
+#           print("    second pass:", second_pass)
+
+
+# def read_csv(path: Path) -> list[dict[str, str]]:
+#        with open(path, newline="", encoding="utf-8") as f:
+#               return list(csv.DictReader(f))
        
-payments = read_csv(payments_path)
-print("\n read_csv returned", len(payments), "rows")
-print("     last row: ", payments[-1])
+# payments = read_csv(payments_path)
+# print("\n payments file path: ", payments_path, "read_csv returned", len(payments), "rows")
+# print("     last row: ", payments[-1])
+
+
+# # -- empty string = NULL
+# rental_path = DATA_DIR / "rentals.csv"
+# rentals = read_csv(rental_path)
+# print("rentals.csv file path: ", rental_path)
+# print("    last row return date:  ", repr(rentals[-1]["return_date"]))
+# print(" read_csv returned " , len(rentals), "rows")
+# not_returned = [r for r in rentals if r["return_date"] == ""]
+
+# print(not_returned)  
+# print("\n Rentals with an empty return_date (never returned):", len(not_returned))
+# print("    example: ", not_returned[0]["rental_id"], repr(not_returned[0]["return_date"]))
+
+
+# #---- Looping with line numbers (useful for error messages later) ---------
+# print("\n7) Line numbers: header is line 1, so the first data row is line 2 ")
+# for line_no, row in enumerate(rentals[:3], start=2):
+#     print(f"    line {line_no}: rental_id={row['rental_id']} customer_id={row['customer_id']}")
+    
+# for line_no, row in enumerate(rentals[:3], start=2):
+#     print(f"    print(f"   line {line_no}: rental_id:{row[line_no]} customer_id: row["line_no "])   ")
+
+#-----Try tis
+def read_csv(path: Path) -> list[dict[str, str]]:
+    """Read a CSV file into a list of dicts (one dict per row)."""
+    with open(path, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+    
+# customers_path = DATA_DIR / "customers.csv"
+# customers = read_csv(customers_path)
+# print("\n customers file path: ", customers_path, "read_csv returned", len(customers), "rows")
+# print("    first customer email: ", customers[0]["email"])
+
+# print("\n How many customers have active == 'true'?")
+# active_customers = {int(r["customer_id"]) for r in customers if r["active"].strip().lower() == "true" } # returns a set shows the distinct values
+# # print("    distinct active customer IDs:", active_customers)
+# print("    active customers:", len(active_customers))
+
+
+# g3_rows
+# ---Self-test 1: load rental.csv into a list of dicts -----------------------
+print("\n4) Self-test 1: load rental.csv into a list of dicts")
+rentals = read_csv(DATA_DIR / "rentals.csv")
+print("   read_csv() returned", len(rentals), "rows")  # self-test #1 doneread_csv
+print("   last row:", rentals[-1])
+
+counts: dict[str, int] = {}
+
+for row in rentals:
+    cid = row["customer_id"]
+    counts[cid] = counts.get(cid, 0) + 1
+
+print("\n2a) rentals for customer 148 (plain dict):", counts["148"])
