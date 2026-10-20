@@ -20,7 +20,7 @@ import csv
 from collections import Counter
 from pathlib import Path
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "sakila_csv"
+DATA_DIR = Path(__file__).resolve().parent / "data" 
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -30,8 +30,8 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 
 
 # --- Self-test 1: load rental.csv into a list of dicts -----------------------
-rentals = read_csv(DATA_DIR / "rental.csv")
-customers = read_csv(DATA_DIR / "customer.csv")
+rentals = read_csv(DATA_DIR / "rentals.csv")
+customers = read_csv(DATA_DIR / "customers.csv")
 print(f"1) Loaded {len(rentals)} rentals and {len(customers)} customers")
 
 # --- Self-test 2: top 5 customers by number of rentals -----------------------
