@@ -61,7 +61,7 @@ inventory = read_csv(DATA_DIR / "inventory.csv")
 
 inventory_counts = Counter(row["inventory_id"] for row in rentals)
 for inv_id, n in inventory_counts.most_common(3):
-    print(f"Inventroy {inv_id:>3}: {n} rentals ")
+    print(f"Inventroy {inv_id:>4}: {n} rentals ")
 
 # b) Which customers have NEVER rented anything?  (known_customer_ids - rental_customer_ids)
 customers_never_rented = known_customer_ids.difference(rental_customer_ids )
@@ -70,4 +70,5 @@ print("Customers never rented anything: ", customers_never_rented)
 
 # c) Count rentals per staff_id with Counter.
 rentals_per_staff_id = Counter(row["staff_id"] for row in rentals)
-print("rentals per staff_id ", rentals_per_staff_id)
+for staff_id, n in rentals_per_staff_id.most_common():
+    print(f"Staff {staff_id}:  {n} rentals")
