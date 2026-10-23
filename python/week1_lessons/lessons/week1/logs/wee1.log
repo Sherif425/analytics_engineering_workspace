@@ -1,0 +1,11 @@
+2026-10-24 00:56:11,843 INFO     1) INFO: normal progress
+2026-10-24 00:56:11,843 WARNING  1) WARNING: odd, but we continue
+2026-10-24 00:56:11,843 ERROR    1) ERROR: something failed
+2026-10-24 00:56:11,844 ERROR    payment.csv not found in the path: D:\analytics_engineering_workspace\python\week1_lessons\lessons\week1\data
+2026-10-24 00:56:11,949 INFO     Read 16049 rows from payments.csv 
+2026-10-24 00:58:48,644 INFO     1) INFO: normal progress
+2026-10-24 00:58:48,645 WARNING  1) WARNING: odd, but we continue
+2026-10-24 00:58:48,645 ERROR    1) ERROR: something failed
+2026-10-24 00:58:48,645 ERROR    payment.csv not found in the path: D:\analytics_engineering_workspace\python\week1_lessons\lessons\week1\data
+2026-10-24 00:58:48,706 INFO     Read 16049 rows from payments.csv 
+2026-10-24 00:58:48,720 INFO     payments.csv: 16049 valid, 0 invalid
