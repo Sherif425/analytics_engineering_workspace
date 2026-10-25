@@ -17,18 +17,27 @@ Also run it from inside lessons/week1/ - it must still PASS.
 
 from pathlib import Path
 
-PROJECT_ROOT = None  # TODO
-DATA_DIR = None  # TODO
 
+
+PROJECT_ROOT = Path(__file__).resolve().parent 
+DATA_DIR = PROJECT_ROOT / "data"
+csv_files = DATA_DIR.glob("*.csv")
 
 def big_csv_files(data_dir: Path, min_kb: float) -> list[str]:
-    # TODO
-    return []
+    big_csv_files = []
+    for csv_file in csv_files:
+        if csv_file.stat().st_size / 1024 > min_kb:
+            big_csv_files.append(csv_file.name) 
+           
+    return sorted(big_csv_files)
+    
 
 
 def make_folder(name: str) -> Path:
-    # TODO
-    return Path()
+    folder = PROJECT_ROOT / name
+    folder.mkdir(parents=True, exist_ok=True)
+    return folder
+    
 
 
 # ---------------- self-check (don't edit below) ----------------
