@@ -9,3 +9,9 @@ pairs = list(totals.items())
 for pair in pairs:
     print(pair[0])
 
+def get_total(pair):
+    return pair[1]
+
+sorted_pairs = sorted(pairs, key= lambda kv:kv[1], reverse=True)
+
+print(sorted_pairs)

@@ -22,14 +22,30 @@ Run:  uv run python lessons/week1/s2_monthly_totals.py
 
 from decimal import Decimal
 from pathlib import Path
+import csv
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "sakila_csv"
+DATA_DIR = Path(__file__).resolve().parent / "data" 
+payments_path = DATA_DIR / "payments.csv"
 
+with open(payments_path, newline="", encoding="utf-8") as f:
+    payment_list = list(csv.DictReader(f))
+
+payments_totals = {}
+
+for row in payment_list:
+    cid = row["customer_id"]
+    month = row["payment_date"][:7]
+    amount = Decimal(row["amount"])
+    payments_totals[(cid, month)] = payments_totals.get((cid, month), Decimal("0")) + amount
+
+# print(payments_totals["148", "2005-07"])
 
 def top_customer_months(n: int = 3) -> list[tuple[tuple[str, str], Decimal]]:
-    # TODO
-    return []
+     """Return the n biggest (customer_id, month) totals, biggest first."""
+     pairs = list(payments_totals.items())
+     pairs_sorted = sorted(pairs, key=lambda kv: kv[1], reverse=True)
 
+     return pairs_sorted[:n]
 
 # ---------------- self-check (don't edit below) ----------------
 expected = [
@@ -38,4 +54,5 @@ expected = [
     (("522", "2005-07"), Decimal("96.82")),
 ]
 got = top_customer_months(3)
+# print(got)
 print("PASS" if got == expected else f"FAIL  got {got!r}\n      expected {expected!r}")
