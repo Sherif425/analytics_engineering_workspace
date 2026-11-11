@@ -22,13 +22,24 @@ Run:  uv run python lessons/week1/s2_monthly_totals.py
 
 from decimal import Decimal
 from pathlib import Path
+import csv
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "sakila_csv"
+DATA_DIR = Path(__file__).resolve().parent / "data"
 
+with open(DATA_DIR / "payments.csv", newline="", encoding="utf-8") as f:
+  payments_list = list(csv.DictReader(f))
+
+payments_totals = {}
+for row in payments_list:
+  cid = row["customer_id"]
+  month = row["payment_date"][:7]
+  amount = Decimal(row["amount"])
+  payments_totals[(cid, month)] = payments_totals.get((cid, month), Decimal("0")) + amount
+
+print(payments_totals["148", "2005-07"])
 
 def top_customer_months(n: int = 3) -> list[tuple[tuple[str, str], Decimal]]:
-    # TODO
-    return []
+  
 
 
 # ---------------- self-check (don't edit below) ----------------
